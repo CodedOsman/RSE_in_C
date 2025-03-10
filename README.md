@@ -1,18 +1,81 @@
 # RSE_in_C
-A remote code exceution project in C language
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Overview](#overview)
+3. [Use Cases](#use-cases)
+4. [Instructions for Use](#instructions-for-use)
+5. [Disclaimers and Limitations](#disclaimers-and-limitations)
+6. [Conclusion](#conclusion)
 
-<h1>This project was built for educational purposes.</h1>
-<h3> Features: </h3>
-<hr>
-<h4>Server:</h4><p>The script to run on your attacking machine.<br>This script listens for connections and allows you to execute commands remotely on the target machine.</p>
-<h4>Client:</h4><p>The script that runs on the target machine. This starts as a process on the target machine without displaying active windows. It is responsible for communicating responses to the server (remotely)</p>
-<h4>Keylogger:</h4><p>This script logs keystrokes and saves on the target machine.</p>
+## Introduction
+This document provides a detailed analysis of the backdoor and server code. The backdoor is designed to run on a Windows system and can be used to establish a reverse connection to a server, allowing remote command execution and keylogging. The server code is responsible for handling client connections and executing commands.
 
-<h5>Compile "backdoor.c" wih the command:</h5><p>i686 -w64 -mingw32 -gcc -o [your_preferred_name.exe] backdoor.c -lwsock32 -lwininet</p>
+## Overview
+### Backdoor Code
+- **Purpose**: To create a backdoor that can capture keystrokes, hide the process, and provide remote command execution.
+- **Components**:
+  - Keylogger: Captures keystrokes and logs them to a file.
+  - Hide Process: Hides the process from the task manager and console.
+  - Persistence: Ensures the backdoor runs on boot by modifying the registry and creating scheduled tasks.
+  - Run as Service: Registers the backdoor as a Windows service.
+  - Shell Function: Handles remote command execution and communication with the server.
 
-<h4>Usage:</h4> 
-<p> q: Exits the program</p>
-<p> keylog_start: Starts keylogger </p>
-<p> cd: Change directory</p>
-<p> The remaining commands are the default windows shell commands</p>
-<h1>NB: Use this project with caution. You are responsible for your actions!</h1>
+### Server Code
+- **Purpose**: To handle client connections, execute commands, and manage multiple clients concurrently.
+- **Components**:
+  - Initialization: Sets up SSL/TLS and socket configurations.
+  - Context Configuration: Configures the SSL context with certificates and keys.
+  - Command Parsing: Parses commands received from clients and executes them.
+  - Client Handling: Manages individual client connections in separate threads.
+  - Main Function: Initializes the server and starts listening for client connections.
+
+## Use Cases 
+   - **Remote Access** : Allow remote access to a target system for administrative purposes.
+   - **Keylogging** : Capture keystrokes to gather sensitive information.
+   - **Persistence** : Ensure the backdoor runs on boot to maintain access.
+
+## Instructions for Use 
+
+1. **Compile the Code** : 
+    - Compile the backdoor code on a Windows system.
+    ```
+        i686 -w64 -mingw32 -gcc -o [backdoor.exe] backdoor.c -lwsock32 -lwininet
+    ```
+    - Compile the server code on a Linux system.
+         
+
+2. **Set Up the Server** : 
+    - Generate SSL certificates and keys using OpenSSL.
+    - Start the server on the specified port (e.g., 50004).
+         
+
+3. **Deploy the Backdoor** : 
+    - Distribute the compiled backdoor executable to the target system.
+    - Run the backdoor on the target system.
+         
+
+4. **Connect to the Server** : 
+    - Use the server to connect to the backdoor and execute commands.
+         
+     
+## Disclaimers and Limitations 
+
+   -  **Legal Warning** : This code is provided for educational purposes only. Using it without explicit permission is illegal and unethical.
+   - **Security Risks** : The backdoor can be detected by security software and may compromise system security.
+    Ethical Considerations : Always obtain proper authorization before using this code on any system.
+
+## Conclusion 
+
+This document provides a detailed analysis of the backdoor and server code. The backdoor is designed to capture keystrokes, hide the process, and provide remote command execution. The server code handles client connections and manages multiple clients concurrently. Both codes should be used responsibly and ethically. 
+
+
+## Commands: 
+- **q**: Exits the program.
+- **keylog_start**: Starts keylogger.
+- **cd:** Change directory.
+- **persist**: Establish persistence mode.
+- **run_as_service**: Run the shell as a windows service.
+
+- **NB**: 
+   - The remaining commands are the default windows shell commands
+   - Use this project with caution. You are responsible for your actions!
